@@ -16,11 +16,20 @@ Public Property Get Self() As AT_TransactionalExecutor
 End Property
 
 Public Sub Execute()
+   If CanExecute() Then
+      DoExecute
+   End If
+End Sub
+
+Private Function CanExecute() As Boolean
    Dim Cancel As Boolean
    
    RaiseEvent BeforeExecute(Cancel)
-   If Cancel Then Exit Sub
    
+   CanExecute = Not Cancel
+End Function
+
+Private Sub DoExecute()
    With New AT_ErrorState
       
       DBEngine.BeginTrans
@@ -38,7 +47,6 @@ Public Sub Execute()
          End If
       End If
    End With
-   
 End Sub
 
 Private Function CanCommit() As Boolean
