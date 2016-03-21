@@ -25,6 +25,10 @@ Private Sub ITestFixture_AddTestCases(ByVal Tests As SimplyVBUnit.TestCaseCollec
 
 Public Sub Setup()
    Set Executor = New AT_TransactionalExecutor
+   m_FiredCommittedEvent = False
+   m_FiredRolledBackEvent = False
+   m_TextWrittenToTable = vbNullString
+   m_TextReadInCommittedHandler = vbNullString
 End Sub
 Public Sub TearDown()
    Set Executor = Nothing

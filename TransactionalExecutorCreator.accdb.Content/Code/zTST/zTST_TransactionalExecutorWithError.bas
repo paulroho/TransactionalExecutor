@@ -29,6 +29,10 @@ Private Sub ITestFixture_AddTestCases(ByVal Tests As SimplyVBUnit.TestCaseCollec
 
 Public Sub Setup()
    Set Executor = New AT_TransactionalExecutor
+   m_FiredCommittedEvent = False
+   m_FiredRolledBackEvent = False
+   Set m_ErrorStateFromRolledBackEvent = Nothing
+   m_TextReadViaDefaultWorkspaceInEventRolledBack = vbNullString
 End Sub
 Public Sub TearDown()
    Set Executor = Nothing
