@@ -7,6 +7,7 @@ Option Explicit
 
 Public Event BeforeExecute(ByRef Cancel As Boolean)
 Public Event Execute(ByVal ErrorState As AT_ErrorState)
+Public Event AfterExecute()
 Public Event BeforeCommit(ByRef Cancel As Boolean)
 Public Event AfterCommit()
 Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
@@ -31,9 +32,10 @@ End Function
 
 Private Sub DoExecute()
    With New AT_ErrorState
-      
+
       DBEngine.BeginTrans
       RaiseEvent Execute(.Self)
+      RaiseEvent AfterExecute
       
       If .ErrorOccurred Then
          DBEngine.Rollback

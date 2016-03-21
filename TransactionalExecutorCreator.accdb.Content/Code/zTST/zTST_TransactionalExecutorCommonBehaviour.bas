@@ -14,6 +14,7 @@ Private m_FiredBeforeExecuteEvent As Boolean
 Private m_BeforeExecuteWasAlreadyFiredInExecuteEvent As Boolean
 Private m_WasNotInTransactionOnBeforeExecuteEvent As Boolean
 Private m_SetCancelInBeforeExecuteEvent As Boolean
+Private m_ExecuteWasAlreadyFiredInAfterExecuteEvent As Boolean
 
 ' AccUnit infrastructure for advanced AccUnit features. Do not remove these lines.
 Implements SimplyVBUnit.ITestFixture
@@ -31,6 +32,7 @@ Public Sub Setup()
    m_BeforeExecuteWasAlreadyFiredInExecuteEvent = False
    m_WasNotInTransactionOnBeforeExecuteEvent = False
    m_SetCancelInBeforeExecuteEvent = False
+   m_ExecuteWasAlreadyFiredInAfterExecuteEvent = False
 End Sub
 Public Sub TearDown()
    Set Executor = Nothing
@@ -64,6 +66,11 @@ Public Sub ExecuteEventDoesNotFireWhenCancelIsSetInBeforeExecuteEvent()
    Assert.IsFalse m_FiredExecuteEvent
 End Sub
 
+Public Sub AfterExecuteEventFiresAfterExecution()
+   Executor.Execute
+   Assert.IsTrue m_ExecuteWasAlreadyFiredInAfterExecuteEvent
+End Sub
+
 
 ' ___ Executor Event Handlers ___
 
@@ -78,4 +85,8 @@ End Sub
 Private Sub Executor_Execute(ByVal ErrorState As AT_ErrorState)
    m_FiredExecuteEvent = True
    m_BeforeExecuteWasAlreadyFiredInExecuteEvent = m_FiredBeforeExecuteEvent
+End Sub
+
+Private Sub Executor_AfterExecute()
+   m_ExecuteWasAlreadyFiredInAfterExecuteEvent = m_FiredExecuteEvent
 End Sub

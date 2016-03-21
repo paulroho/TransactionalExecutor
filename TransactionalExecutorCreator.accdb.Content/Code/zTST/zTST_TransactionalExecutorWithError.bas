@@ -18,6 +18,7 @@ Private m_FiredAfterCommitEvent As Boolean
 Private m_FiredAfterRollbackEvent As Boolean
 Private m_ErrorStateFromAfterRollbackEvent As AT_ErrorState
 Private m_TextReadViaDefaultWorkspaceInEventAfterRollback As String
+Private m_AfterExecuteWasFired As Boolean
 
 ' AccUnit infrastructure for advanced AccUnit features. Do not remove these lines.
 Implements SimplyVBUnit.ITestFixture
@@ -35,6 +36,7 @@ Public Sub Setup()
    m_FiredAfterRollbackEvent = False
    Set m_ErrorStateFromAfterRollbackEvent = Nothing
    m_TextReadViaDefaultWorkspaceInEventAfterRollback = vbNullString
+   m_AfterExecuteWasFired = False
 End Sub
 Public Sub TearDown()
    Set Executor = Nothing
@@ -90,6 +92,11 @@ Public Sub BeforeCommitIsNotFired()
    Assert.IsFalse m_FiredBeforeCommit
 End Sub
 
+Public Sub FiresEventAfterExecute()
+   Executor.Execute
+   Assert.IsTrue m_AfterExecuteWasFired
+End Sub
+
 
 
 ' ___ Executor Event Handlers ___
@@ -110,6 +117,10 @@ On Error GoTo Err_
    Exit Sub
 Err_:
    ErrorState.SetError Err
+End Sub
+
+Private Sub Executor_AfterExecute()
+   m_AfterExecuteWasFired = True
 End Sub
 
 Private Sub Executor_AfterCommit()
