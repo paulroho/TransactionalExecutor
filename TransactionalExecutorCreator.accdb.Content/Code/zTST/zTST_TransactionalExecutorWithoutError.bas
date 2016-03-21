@@ -9,10 +9,10 @@ Option Explicit
 
 Private WithEvents Executor As AT_TransactionalExecutor
 Attribute Executor.VB_VarHelpID = -1
-Private m_FiredCommittedEvent As Boolean
-Private m_FiredRolledBackEvent As Boolean
+Private m_FiredAfterCommitEvent As Boolean
+Private m_FiredAfterRollbackEvent As Boolean
 Private m_TextWrittenToTable As String
-Private m_TextReadInCommittedHandler As String
+Private m_TextReadInAfterCommitHandler As String
 
 ' AccUnit infrastructure for advanced AccUnit features. Do not remove these lines.
 Implements SimplyVBUnit.ITestFixture
@@ -25,18 +25,18 @@ Private Sub ITestFixture_AddTestCases(ByVal Tests As SimplyVBUnit.TestCaseCollec
 
 Public Sub Setup()
    Set Executor = New AT_TransactionalExecutor
-   m_FiredCommittedEvent = False
-   m_FiredRolledBackEvent = False
+   m_FiredAfterCommitEvent = False
+   m_FiredAfterRollbackEvent = False
    m_TextWrittenToTable = vbNullString
-   m_TextReadInCommittedHandler = vbNullString
+   m_TextReadInAfterCommitHandler = vbNullString
 End Sub
 Public Sub TearDown()
    Set Executor = Nothing
 End Sub
 
-Public Sub FiresEventCommitted()
+Public Sub FiresEventAfterCommit()
    Executor.Execute
-   Assert.IsTrue m_FiredCommittedEvent, "The event 'Committed' should be fired."
+   Assert.IsTrue m_FiredAfterCommitEvent, "The event 'AfterCommit' should be fired."
 End Sub
 
 Public Sub CommitsOperationsDoneInExecute()
@@ -44,9 +44,9 @@ Public Sub CommitsOperationsDoneInExecute()
    Assert.AreEqual m_TextWrittenToTable, GetActualTextInTable(), "The database should be updated."
 End Sub
 
-Public Sub HasAlreadyCommittedWhenEventCommittedIsFired()
+Public Sub HasAlreadyCommittedWhenEventAfterCommitIsFired()
    Executor.Execute
-   Assert.AreEqual m_TextWrittenToTable, m_TextReadInCommittedHandler
+   Assert.AreEqual m_TextWrittenToTable, m_TextReadInAfterCommitHandler
 End Sub
 
 Public Sub LeavesNoOpenTransaction()
@@ -54,9 +54,9 @@ Public Sub LeavesNoOpenTransaction()
    Assert.IsFalse IsInTransaction()
 End Sub
 
-Public Sub DoesNotFireEventRolledBack()
+Public Sub DoesNotFireEventAfterRollback()
    Executor.Execute
-   Assert.IsFalse m_FiredRolledBackEvent, "The event 'RolledBack' should not be fired."
+   Assert.IsFalse m_FiredAfterRollbackEvent, "The event 'AfterRollback' should not be fired."
 End Sub
 
 
@@ -70,11 +70,11 @@ Private Sub Executor_Execute(ByVal ErrorState As AT_ErrorState)
    ' no error is raised
 End Sub
 
-Private Sub Executor_Committed()
-   m_FiredCommittedEvent = True
-   m_TextReadInCommittedHandler = GetActualTextInTable()
+Private Sub Executor_AfterCommit()
+   m_FiredAfterCommitEvent = True
+   m_TextReadInAfterCommitHandler = GetActualTextInTable()
 End Sub
 
-Private Sub Executor_RolledBack(ByVal ErrorState As AT_ErrorState)
-   m_FiredRolledBackEvent = True
+Private Sub Executor_AfterRollback(ByVal ErrorState As AT_ErrorState)
+   m_FiredAfterRollbackEvent = True
 End Sub

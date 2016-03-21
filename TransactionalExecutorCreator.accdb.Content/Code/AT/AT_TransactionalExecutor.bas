@@ -7,8 +7,8 @@ Option Explicit
 
 Public Event BeforeExecute(ByRef Cancel As Boolean)
 Public Event Execute(ByVal ErrorState As AT_ErrorState)
-Public Event Committed()
-Public Event RolledBack(ByVal ErrorState As AT_ErrorState)
+Public Event AfterCommit()
+Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
 
 Public Property Get Self() As AT_TransactionalExecutor
    Set Self = Me
@@ -27,10 +27,10 @@ Public Sub Execute()
       
       If .ErrorOccurred Then
          DBEngine.Rollback
-         RaiseEvent RolledBack(.Self)
+         RaiseEvent AfterRollback(.Self)
       Else
          DBEngine.CommitTrans
-         RaiseEvent Committed
+         RaiseEvent AfterCommit
       End If
    End With
    

@@ -13,10 +13,10 @@ Private Const ThrownErrorSource As String = "The source of the evil."
 
 Private WithEvents Executor As AT_TransactionalExecutor
 Attribute Executor.VB_VarHelpID = -1
-Private m_FiredCommittedEvent As Boolean
-Private m_FiredRolledBackEvent As Boolean
-Private m_ErrorStateFromRolledBackEvent As AT_ErrorState
-Private m_TextReadViaDefaultWorkspaceInEventRolledBack As String
+Private m_FiredAfterCommitEvent As Boolean
+Private m_FiredAfterRollbackEvent As Boolean
+Private m_ErrorStateFromAfterRollbackEvent As AT_ErrorState
+Private m_TextReadViaDefaultWorkspaceInEventAfterRollback As String
 
 ' AccUnit infrastructure for advanced AccUnit features. Do not remove these lines.
 Implements SimplyVBUnit.ITestFixture
@@ -29,23 +29,23 @@ Private Sub ITestFixture_AddTestCases(ByVal Tests As SimplyVBUnit.TestCaseCollec
 
 Public Sub Setup()
    Set Executor = New AT_TransactionalExecutor
-   m_FiredCommittedEvent = False
-   m_FiredRolledBackEvent = False
-   Set m_ErrorStateFromRolledBackEvent = Nothing
-   m_TextReadViaDefaultWorkspaceInEventRolledBack = vbNullString
+   m_FiredAfterCommitEvent = False
+   m_FiredAfterRollbackEvent = False
+   Set m_ErrorStateFromAfterRollbackEvent = Nothing
+   m_TextReadViaDefaultWorkspaceInEventAfterRollback = vbNullString
 End Sub
 Public Sub TearDown()
    Set Executor = Nothing
 End Sub
 
-Public Sub DoesNotFireEventCommitted()
+Public Sub DoesNotFireEventAfterCommit()
    Executor.Execute
-   Assert.IsFalse m_FiredCommittedEvent, "The event 'Committed' should not be fired."
+   Assert.IsFalse m_FiredAfterCommitEvent, "The event 'AfterCommit' should not be fired."
 End Sub
 
-Public Sub FiresEventRolledBack()
+Public Sub FiresEventAfterRollback()
    Executor.Execute
-   Assert.IsTrue m_FiredRolledBackEvent, "The event 'RolledBack' should be fired."
+   Assert.IsTrue m_FiredAfterRollbackEvent, "The event 'AfterRollback' should be fired."
 End Sub
 
 Public Sub RollsBackOperationsDoneInExecute()
@@ -59,7 +59,7 @@ Public Sub RollsBackOperationsDoneInExecute()
    Assert.AreEqual OriginalTextInTable, GetActualTextInTable(), "The database should not be updated."
 End Sub
 
-Public Sub HasAlreadyRolledBackWhenEventRolledBackIsFired()
+Public Sub HasAlreadyRolledBackWhenEventAfterRollbackIsFired()
    Dim OriginalTextInTable As String
    
    OriginalTextInTable = GetActualTextInTable()
@@ -67,7 +67,7 @@ Public Sub HasAlreadyRolledBackWhenEventRolledBackIsFired()
    ' Act
    Executor.Execute
    
-   Assert.AreEqual OriginalTextInTable, m_TextReadViaDefaultWorkspaceInEventRolledBack
+   Assert.AreEqual OriginalTextInTable, m_TextReadViaDefaultWorkspaceInEventAfterRollback
 End Sub
 
 Public Sub LeavesNoOpenTransaction()
@@ -76,11 +76,11 @@ Public Sub LeavesNoOpenTransaction()
    Assert.IsFalse IsInTransaction()
 End Sub
 
-Public Sub ProvidesTheErrorInTheRolledBackEvent()
+Public Sub ProvidesTheErrorInTheAfterRollbackEvent()
    Executor.Execute
-   Assert.AreEqual ThrownErrorNumber, m_ErrorStateFromRolledBackEvent.Number, "The number of the thrown error should be provided."
-   Assert.AreEqual ThrownErrorDescription, m_ErrorStateFromRolledBackEvent.Description, "The description of the thrown error should be provided."
-   Assert.AreEqual ThrownErrorSource, m_ErrorStateFromRolledBackEvent.Source, "The source of the thrown error should be provided."
+   Assert.AreEqual ThrownErrorNumber, m_ErrorStateFromAfterRollbackEvent.Number, "The number of the thrown error should be provided."
+   Assert.AreEqual ThrownErrorDescription, m_ErrorStateFromAfterRollbackEvent.Description, "The description of the thrown error should be provided."
+   Assert.AreEqual ThrownErrorSource, m_ErrorStateFromAfterRollbackEvent.Source, "The source of the thrown error should be provided."
 End Sub
 
 
@@ -101,12 +101,12 @@ Err_:
    ErrorState.SetError Err
 End Sub
 
-Private Sub Executor_Committed()
-   m_FiredCommittedEvent = True
+Private Sub Executor_AfterCommit()
+   m_FiredAfterCommitEvent = True
 End Sub
 
-Private Sub Executor_RolledBack(ByVal ErrorState As AT_ErrorState)
-   m_FiredRolledBackEvent = True
-   Set m_ErrorStateFromRolledBackEvent = ErrorState
-   m_TextReadViaDefaultWorkspaceInEventRolledBack = GetActualTextInTableViaDefaultWorkspace()
+Private Sub Executor_AfterRollback(ByVal ErrorState As AT_ErrorState)
+   m_FiredAfterRollbackEvent = True
+   Set m_ErrorStateFromAfterRollbackEvent = ErrorState
+   m_TextReadViaDefaultWorkspaceInEventAfterRollback = GetActualTextInTableViaDefaultWorkspace()
 End Sub
