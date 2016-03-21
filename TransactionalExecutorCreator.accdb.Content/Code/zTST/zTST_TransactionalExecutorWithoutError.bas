@@ -11,6 +11,8 @@ Private WithEvents Executor As AT_TransactionalExecutor
 Attribute Executor.VB_VarHelpID = -1
 Private m_FiredCommittedEvent As Boolean
 Private m_FiredRolledBackEvent As Boolean
+Private m_TextWrittenToTable As String
+Private m_TextReadInCommittedHandler As String
 
 ' AccUnit infrastructure for advanced AccUnit features. Do not remove these lines.
 Implements SimplyVBUnit.ITestFixture
@@ -33,6 +35,21 @@ Public Sub FiresEventCommitted()
    Assert.IsTrue m_FiredCommittedEvent, "The event 'Committed' should be fired."
 End Sub
 
+Public Sub CommitsOperationsDoneInExecute()
+   Executor.Execute
+   Assert.AreEqual m_TextWrittenToTable, GetActualTextInTable(), "The database should be updated."
+End Sub
+
+Public Sub HasAlreadyCommittedWhenEventCommittedIsFired()
+   Executor.Execute
+   Assert.AreEqual m_TextWrittenToTable, m_TextReadInCommittedHandler
+End Sub
+
+Public Sub LeavesNoOpenTransaction()
+   Executor.Execute
+   Assert.IsFalse IsInTransaction()
+End Sub
+
 Public Sub DoesNotFireEventRolledBack()
    Executor.Execute
    Assert.IsFalse m_FiredRolledBackEvent, "The event 'RolledBack' should not be fired."
@@ -45,11 +62,13 @@ End Sub
 
 
 Private Sub Executor_Execute(ByVal ErrorState As AT_ErrorState)
+   m_TextWrittenToTable = UpdateTextInTable()
    ' no error is raised
 End Sub
 
 Private Sub Executor_Committed()
    m_FiredCommittedEvent = True
+   m_TextReadInCommittedHandler = GetActualTextInTable()
 End Sub
 
 Private Sub Executor_RolledBack(ByVal ErrorState As AT_ErrorState)

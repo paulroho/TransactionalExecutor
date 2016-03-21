@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<table name="ATable" isLocal="True">
+	<preliminary_definition>
+		<![CDATA[CREATE TABLE ATable(
+   ID AutoNumber
+   TextField Text
+)]]>
+	</preliminary_definition>
+	<fields>
+		<field>
+			<properties>
+				<property name="Attributes" value="17" />
+				<property name="CollatingOrder" value="1033" />
+				<property name="Type" value="4" />
+				<property name="Name" value="ID" />
+				<property name="OrdinalPosition" value="0" />
+				<property name="Size" value="4" />
+				<property name="SourceField" value="ID" />
+				<property name="SourceTable" value="ATable" />
+				<property name="DataUpdatable" value="False" />
+				<property name="ForeignName" value="(n/a)" />
+				<property name="DefaultValue" value="" />
+				<property name="ValidationRule" value="" />
+				<property name="ValidationText" value="" />
+				<property name="Required" value="False" />
+				<property name="AllowZeroLength" value="False" />
+				<property name="AppendOnly" value="False" />
+				<property name="Expression" value="" />
+				<property name="FieldSize" value="(n/a)" />
+				<property name="OriginalValue" value="(n/a)" />
+				<property name="VisibleValue" value="(n/a)" />
+				<property name="GUID" value="????????" />
+				<property name="ColumnWidth" value="-1" />
+				<property name="ColumnOrder" value="1" />
+				<property name="ColumnHidden" value="False" />
+				<property name="TextAlign" value="0" />
+				<property name="AggregateType" value="-1" />
+				<property name="ResultType" value="0" />
+				<property name="CurrencyLCID" value="0" />
+			</properties>
+		</field>
+		<field>
+			<properties>
+				<property name="Attributes" value="2" />
+				<property name="CollatingOrder" value="1033" />
+				<property name="Type" value="10" />
+				<property name="Name" value="TextField" />
+				<property name="OrdinalPosition" value="1" />
+				<property name="Size" value="255" />
+				<property name="SourceField" value="TextField" />
+				<property name="SourceTable" value="ATable" />
+				<property name="DataUpdatable" value="False" />
+				<property name="ForeignName" value="(n/a)" />
+				<property name="DefaultValue" value="" />
+				<property name="ValidationRule" value="" />
+				<property name="ValidationText" value="" />
+				<property name="Required" value="False" />
+				<property name="AllowZeroLength" value="True" />
+				<property name="AppendOnly" value="False" />
+				<property name="Expression" value="" />
+				<property name="FieldSize" value="(n/a)" />
+				<property name="OriginalValue" value="(n/a)" />
+				<property name="VisibleValue" value="(n/a)" />
+				<property name="GUID" value="????????" />
+				<property name="ColumnWidth" value="3165" />
+				<property name="ColumnOrder" value="2" />
+				<property name="ColumnHidden" value="False" />
+				<property name="DisplayControl" value="109" />
+				<property name="IMEMode" value="0" />
+				<property name="IMESentenceMode" value="3" />
+				<property name="UnicodeCompression" value="True" />
+				<property name="TextAlign" value="0" />
+				<property name="AggregateType" value="-1" />
+				<property name="ResultType" value="0" />
+				<property name="CurrencyLCID" value="0" />
+			</properties>
+		</field>
+	</fields>
+	<data rowCount="1">
+		<row>
+			<col name="ID">1</col>
+			<col name="TextField">Update #11 (21.03.2016 04:15:51)</col>
+		</row>
+	</data>
+</table>

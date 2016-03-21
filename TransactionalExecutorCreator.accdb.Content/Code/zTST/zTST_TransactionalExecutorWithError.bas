@@ -16,6 +16,7 @@ Attribute Executor.VB_VarHelpID = -1
 Private m_FiredCommittedEvent As Boolean
 Private m_FiredRolledBackEvent As Boolean
 Private m_ErrorStateFromRolledBackEvent As AT_ErrorState
+Private m_TextReadViaDefaultWorkspaceInEventRolledBack As String
 
 ' AccUnit infrastructure for advanced AccUnit features. Do not remove these lines.
 Implements SimplyVBUnit.ITestFixture
@@ -43,6 +44,34 @@ Public Sub FiresEventRolledBack()
    Assert.IsTrue m_FiredRolledBackEvent, "The event 'RolledBack' should be fired."
 End Sub
 
+Public Sub RollsBackOperationsDoneInExecute()
+   Dim OriginalTextInTable As String
+   
+   OriginalTextInTable = GetActualTextInTable()
+   
+   ' Act
+   Executor.Execute
+   
+   Assert.AreEqual OriginalTextInTable, GetActualTextInTable(), "The database should not be updated."
+End Sub
+
+Public Sub HasAlreadyRolledBackWhenEventRolledBackIsFired()
+   Dim OriginalTextInTable As String
+   
+   OriginalTextInTable = GetActualTextInTable()
+   
+   ' Act
+   Executor.Execute
+   
+   Assert.AreEqual OriginalTextInTable, m_TextReadViaDefaultWorkspaceInEventRolledBack
+End Sub
+
+Public Sub LeavesNoOpenTransaction()
+   Executor.Execute
+   
+   Assert.IsFalse IsInTransaction()
+End Sub
+
 Public Sub ProvidesTheErrorInTheRolledBackEvent()
    Executor.Execute
    Assert.AreEqual ThrownErrorNumber, m_ErrorStateFromRolledBackEvent.Number, "The number of the thrown error should be provided."
@@ -58,6 +87,8 @@ End Sub
 
 Private Sub Executor_Execute(ByVal ErrorState As AT_ErrorState)
 On Error GoTo Err_
+   UpdateTextInTable
+   
    Err.Raise ThrownErrorNumber, _
              ThrownErrorSource, _
              ThrownErrorDescription
@@ -73,4 +104,5 @@ End Sub
 Private Sub Executor_RolledBack(ByVal ErrorState As AT_ErrorState)
    m_FiredRolledBackEvent = True
    Set m_ErrorStateFromRolledBackEvent = ErrorState
+   m_TextReadViaDefaultWorkspaceInEventRolledBack = GetActualTextInTableViaDefaultWorkspace()
 End Sub

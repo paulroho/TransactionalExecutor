@@ -15,11 +15,15 @@ End Property
 
 Public Sub Execute()
    With New AT_ErrorState
+   
+      DBEngine.BeginTrans
       RaiseEvent Execute(.Self)
       
       If .ErrorOccurred Then
+         DBEngine.Rollback
          RaiseEvent RolledBack(.Self)
       Else
+         DBEngine.CommitTrans
          RaiseEvent Committed
       End If
    End With
