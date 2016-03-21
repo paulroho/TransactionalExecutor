@@ -21,7 +21,7 @@ For better user interacation several hooks exist in the process.
 4. Call the `Execute` method on that instance   
 
 The following code snipped shows this in a minimal setup. Note that this code only works in a class module (can be a form's code behind).
-````
+````vbnet
 Private WithEvents MultiStepOperation As AT_TransactionalExecutor
 
 ' ...
@@ -51,7 +51,7 @@ End Sub
 `TransactionExecutor` provides hooks in the form of events.
 
 The following events can be used. Typically, the `Execute` event is implemented first and other events are used for improved user feedback.
-````
+````vbnet
 Public Event BeforeExecute(ByRef Cancel As Boolean)
 Public Event Execute(ByVal ErrorState As AT_ErrorState)
 Public Event AfterExecute()
@@ -74,7 +74,7 @@ Is the first event raised by a call to `Execute()`. Can be used to cancel the op
 * Show confirmation message and let the user decide whether to run the operation
 
 ##### Sample
-````
+````vbnet
 Private Sub MultistepOperation_BeforeExecute(ByRef Cancel As Boolean)
     Cancel = (vbCancel = MsgBox("The complicated operation will be started.", vbOkCancel))
 End Sub
@@ -114,7 +114,7 @@ This event is fired immediately after the even `Execute` regardless of the outco
 * Hide any busy indications such as hourglass or progress bars
 
 ##### Sample
-````
+````vbnet
 Private Sub MultistepOperation_AfterExecute()
     Screen.MousePointer = 0
 End Sub
@@ -131,7 +131,7 @@ Is raised after the operation completed without error but before the transaction
 Give the user a chance to avoid committing the operation result to the database. Information about the execution that was eventually collected during execution can be provided.
 
 ##### Sample
-````
+````vbnet
 Private Sub MultistepOperation_BeforeCommit(ByRef Cancel As Boolean)
     ' Assume m_RecordsAffected has been set in the handler for the Execute event.
     Cancel = (vbCancel = MsgBox("m_RecordsAffected & " records are going to be updated.", vbOKCancel))
@@ -149,7 +149,7 @@ Is called after the transaction has been successfully committed.
 * Refresh UI showing data affected by the operation
 
 ##### Sample
-````
+````vbnet
 Private Sub MultistepOperation_AfterCommit()
     ' Assuming this is called in a form's code behind class
     Me.Requery
@@ -167,7 +167,7 @@ Is called after the transaction has been rolled back due to an error. The `Error
 * Inform the user about the the error that has occured.
 
 ##### Sample
-````
+````vbnet
 Private Sub MultistepOperation_AfterRollback(ByVal ErrorState As AT_ErrorState)
     MsgBox "An error has occured:" & vbNewLine & _
            ErrorState.Description
