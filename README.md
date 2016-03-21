@@ -17,19 +17,19 @@ For better user interacation several hooks exist in the process.
 
 The following code snipped shows this in a minimal setup. Note that this code only works in a class module (can be a form's code behind).
 ````vbnet
-Private WithEvents MultiStepOperation As AT_TransactionalExecutor
+Private WithEvents MultistepOperation As AT_TransactionalExecutor
 
 ' ...
 
 Public Sub DoTheOperation()
-    Set MultiStepOperation = New At_TransactionalExecutor
-    MultiStepOperation.Execute()
-    Set MultiStepOperation = Nothing
+    Set MultistepOperation = New At_TransactionalExecutor
+    MultistepOperation.Execute()
+    Set MultistepOperation = Nothing
 End Sub
 
 ' ...
 
-Private Sub MultiStepOperation_Execute(ByVal ErrorState As AT_ErrorState)
+Private Sub MultistepOperation_Execute(ByVal ErrorState As AT_ErrorState)
 On Error Goto Err_
 
     ' YOUR OPERATIONS GO HERE
@@ -92,7 +92,7 @@ Place the code to be executed within the transaction here. Make sure to follow t
 ##### Error handling pattern
 Since an error raised from an event handler cannot be caught, a simple error handling pattern has to be implemented. The important part here is to call `ErrorState.SetError Err` in case of an error:
 ````vbnet
-Private Sub MultiStepOperation_Execute(ByVal ErrorState As AT_ErrorState)
+Private Sub MultistepOperation_Execute(ByVal ErrorState As AT_ErrorState)
 On Error Goto Err_
 
     ' YOUR OPERATIONS GO HERE
