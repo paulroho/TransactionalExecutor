@@ -53,14 +53,17 @@ End Sub
 `TransactionExecutor` provides hooks in the form of events.
 
 The following events can be used. Typically, the `Execute` event is implemented first and other events are used for improved user feedback.
-* `Public Event` [`BeforeExecute`](#beforeexecute) `(ByRef Cancel As Boolean)`
-* Public Event Execute(ByVal ErrorState As AT_ErrorState)
-* Public Event AfterExecute()
-* 
-* Public Event BeforeCommit(ByRef Cancel As Boolean)
-* Public Event AfterCommit()
-* 
-* Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
+#### Execution Hooks
+* [`Public Event BeforeExecute (ByRef Cancel As Boolean)`](#beforeexecute)
+* [`Public Event Execute(ByVal ErrorState As AT_ErrorState)`](#execute)
+* [`Public Event AfterExecute()`](#afterexecute)
+
+#### Commit Hooks 
+* [`Public Event BeforeCommit(ByRef Cancel As Boolean)`](#beforecommit)
+* [`Public Event AfterCommit()`](#aftercommit)
+
+#### Rollback Hook 
+* [`Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)`](#afterollback)
 
 #### BeforeExecute
 Is the first event raised by a call to `Execute()`. Can be used to cancel the operation.
@@ -173,3 +176,5 @@ Private Sub MultistepOperation_AfterRollback(ByVal ErrorState As AT_ErrorState)
            ErrorState.Description
 End Sub
 ````
+##### Remark
+The `AfterRollback` event is not fired if the rollback was done because the `BeforeCommit` event has been cancelled.
