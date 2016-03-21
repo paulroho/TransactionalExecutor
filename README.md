@@ -63,7 +63,7 @@ The following events can be used. Typically, the `Execute` event is implemented 
 * [`Public Event AfterCommit()`](#aftercommit)
 
 #### Rollback Hook 
-* [`Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)`](#afterollback)
+* [`Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)`](#afterrollback)
 
 #### BeforeExecute
 Is the first event raised by a call to `Execute()`. Can be used to cancel the operation.
