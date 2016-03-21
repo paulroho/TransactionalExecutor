@@ -14,6 +14,8 @@ Public Property Get Self() As AT_ErrorState
 End Property
 
 Public Sub SetError(ByVal ErrorObject As ErrObject)
+   If m_ErrNumber <> 0 Then Err.Raise 8, TypeName(Me) & ".SetError()", "The error cannot be set another time after it has been set once."
+   
    With ErrorObject
       m_ErrNumber = .Number
       m_ErrDescription = .Description
