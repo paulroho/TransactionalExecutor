@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<references>
+	<reference name="VBA" version="4.1" kind="TypeLib" isBuiltIn="True" isBroken="False">
+		<guid>{000204EF-0000-0000-C000-000000000046}</guid>
+		<fullPath>C:\PROGRA~2\COMMON~1\MICROS~1\VBA\VBA7\VBE7.DLL</fullPath>
+	</reference>
+	<reference name="Access" version="9.0" kind="TypeLib" isBuiltIn="True" isBroken="False">
+		<guid>{4AFFC9A0-5F99-101B-AF4E-00AA003F0F07}</guid>
+		<fullPath>C:\Program Files (x86)\Microsoft Office\Office14\MSACC.OLB</fullPath>
+	</reference>
+	<reference name="stdole" version="2.0" kind="TypeLib" isBuiltIn="False" isBroken="False">
+		<guid>{00020430-0000-0000-C000-000000000046}</guid>
+		<fullPath>C:\Windows\SysWOW64\stdole2.tlb</fullPath>
+	</reference>
+	<reference name="DAO" version="12.0" kind="TypeLib" isBuiltIn="False" isBroken="False">
+		<guid>{4AC9E1DA-5BAD-4AC7-86E3-24F4CDCECA28}</guid>
+		<fullPath>C:\Program Files (x86)\Common Files\Microsoft Shared\OFFICE14\ACEDAO.DLL</fullPath>
+	</reference>
+	<reference name="AccUnit_Integration" version="0.9" kind="TypeLib" isBuiltIn="False" isBroken="False">
+		<guid>{4D92B0E4-E59B-4DD5-8B52-B1AEF82B8941}</guid>
+		<fullPath>C:\Program Files (x86)\Access-CodeLib.net\AccUnit\AccUnit.Integration.tlb</fullPath>
+	</reference>
+	<reference name="SimplyVBUnit" version="7.0" kind="TypeLib" isBuiltIn="False" isBroken="False">
+		<guid>{AD061B4A-38BF-4847-BA00-0B2F9D60C3FB}</guid>
+		<fullPath>C:\Program Files (x86)\SimplyVBUnit 3.0\SimplyVBUnit.dll</fullPath>
+	</reference>
+</references>

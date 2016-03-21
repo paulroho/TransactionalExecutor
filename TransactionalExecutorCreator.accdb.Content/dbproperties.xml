@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<db.properties>
+	<property name="Name" value="D:\Projects\TransactionalExecutor\TransactionalExecutorCreator.accdb" />
+	<property name="Connect" value="" />
+	<property name="Transactions" value="True" />
+	<property name="Updatable" value="True" />
+	<property name="CollatingOrder" value="1033" />
+	<property name="QueryTimeout" value="60" />
+	<property name="Version" value="12.0" />
+	<property name="RecordsAffected" value="0" />
+	<property name="ReplicaID" value="" />
+	<property name="DesignMasterID" value="" />
+	<property name="Connection" value="(n/a)" />
+	<property name="ANSI Query Mode" value="0" />
+	<property name="Themed Form Controls" value="1" />
+	<property name="Use Microsoft Access 2007 compatible cache" value="0" />
+	<property name="Clear Cache on Close" value="0" />
+	<property name="Never Cache" value="0" />
+	<property name="AccessVersion" value="09.50" />
+	<property name="NavPane Category" value="0" />
+	<property name="Show Navigation Pane Search Bar" value="1" />
+	<property name="UseMDIMode" value="0" />
+	<property name="ShowDocumentTabs" value="True" />
+	<property name="Picture Property Storage Format" value="0" />
+	<property name="WebDesignMode" value="0" />
+	<property name="CheckTruncatedNumFields" value="1" />
+	<property name="Theme Resource Name" value="Office Theme" />
+	<property name="HasOfflineLists" value="70" />
+	<property name="ProjVer" value="119" />
+	<property name="NavPane Closed" value="0" />
+	<property name="NavPane Width" value="237" />
+	<property name="NavPane View By" value="0" />
+	<property name="NavPane Sort By" value="1" />
+	<databases.userDefined>
+		<property name="Name" value="UserDefined" />
+		<property name="Owner" value="admin" />
+		<property name="UserName" value="admin" />
+		<property name="Permissions" value="1048575" />
+		<property name="AllPermissions" value="1048575" />
+		<property name="Container" value="Databases" />
+		<property name="DateCreated" value="20.03.2016 21:21:39" />
+		<property name="LastUpdated" value="20.03.2016 21:21:39" />
+		<property name="ReplicateProject" value="True" />
+	</databases.userDefined>
+</db.properties>
