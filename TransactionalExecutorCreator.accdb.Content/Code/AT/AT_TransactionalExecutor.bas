@@ -5,6 +5,7 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+Public Event BeforeExecute(ByRef Cancel As Boolean)
 Public Event Execute(ByVal ErrorState As AT_ErrorState)
 Public Event Committed()
 Public Event RolledBack(ByVal ErrorState As AT_ErrorState)
@@ -14,8 +15,13 @@ Public Property Get Self() As AT_TransactionalExecutor
 End Property
 
 Public Sub Execute()
-   With New AT_ErrorState
+   Dim Cancel As Boolean
    
+   RaiseEvent BeforeExecute(Cancel)
+   If Cancel Then Exit Sub
+   
+   With New AT_ErrorState
+      
       DBEngine.BeginTrans
       RaiseEvent Execute(.Self)
       
@@ -27,4 +33,5 @@ Public Sub Execute()
          RaiseEvent Committed
       End If
    End With
+   
 End Sub
