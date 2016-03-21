@@ -10,7 +10,7 @@ A class for easier execution of code in the context of a transaction without the
 For better user interacation several hooks exist in the process. 
 
 ## Preparation
-* Copy the class modules `AT_TransactionalExecutor` and `AT_ErrorState` (folder TransactionalExecutorCreater.Content/Code/AT) to your VBA project.
+* Copy the class modules `AT_TransactionalExecutor` and `AT_ErrorState` (folder [TransactionalExecutorCreater.accdb.Content/Code/AT](TransactionalExecutorCreater.accdb.Content/Code/AT)) to your VBA project.
 * Make sure a reference to the DAO library is set
  
 ## Basic Usage
