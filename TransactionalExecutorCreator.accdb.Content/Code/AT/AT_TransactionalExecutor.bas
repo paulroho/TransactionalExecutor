@@ -7,6 +7,7 @@ Option Explicit
 
 Public Event BeforeExecute(ByRef Cancel As Boolean)
 Public Event Execute(ByVal ErrorState As AT_ErrorState)
+Public Event BeforeCommit(ByRef Cancel As Boolean)
 Public Event AfterCommit()
 Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
 
@@ -29,9 +30,22 @@ Public Sub Execute()
          DBEngine.Rollback
          RaiseEvent AfterRollback(.Self)
       Else
-         DBEngine.CommitTrans
-         RaiseEvent AfterCommit
+         If CanCommit() Then
+            DBEngine.CommitTrans
+            RaiseEvent AfterCommit
+         Else
+            DBEngine.Rollback
+         End If
       End If
    End With
    
 End Sub
+
+Private Function CanCommit() As Boolean
+   Dim Cancel As Boolean
+   
+   Cancel = False
+   RaiseEvent BeforeCommit(Cancel)
+   
+   CanCommit = Not Cancel
+End Function

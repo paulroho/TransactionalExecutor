@@ -13,6 +13,7 @@ Private Const ThrownErrorSource As String = "The source of the evil."
 
 Private WithEvents Executor As AT_TransactionalExecutor
 Attribute Executor.VB_VarHelpID = -1
+Private m_FiredBeforeCommit As Boolean
 Private m_FiredAfterCommitEvent As Boolean
 Private m_FiredAfterRollbackEvent As Boolean
 Private m_ErrorStateFromAfterRollbackEvent As AT_ErrorState
@@ -29,6 +30,7 @@ Private Sub ITestFixture_AddTestCases(ByVal Tests As SimplyVBUnit.TestCaseCollec
 
 Public Sub Setup()
    Set Executor = New AT_TransactionalExecutor
+   m_FiredBeforeCommit = False
    m_FiredAfterCommitEvent = False
    m_FiredAfterRollbackEvent = False
    Set m_ErrorStateFromAfterRollbackEvent = Nothing
@@ -83,11 +85,20 @@ Public Sub ProvidesTheErrorInTheAfterRollbackEvent()
    Assert.AreEqual ThrownErrorSource, m_ErrorStateFromAfterRollbackEvent.Source, "The source of the thrown error should be provided."
 End Sub
 
+Public Sub BeforeCommitIsNotFired()
+   Executor.Execute
+   Assert.IsFalse m_FiredBeforeCommit
+End Sub
+
 
 
 ' ___ Executor Event Handlers ___
 
 
+
+Private Sub Executor_BeforeCommit(Cancel As Boolean)
+   m_FiredBeforeCommit = True
+End Sub
 
 Private Sub Executor_Execute(ByVal ErrorState As AT_ErrorState)
 On Error GoTo Err_

@@ -13,6 +13,8 @@ Private m_FiredAfterCommitEvent As Boolean
 Private m_FiredAfterRollbackEvent As Boolean
 Private m_TextWrittenToTable As String
 Private m_TextReadInAfterCommitHandler As String
+Private m_SetCancelInBeforeCommitEvent As Boolean
+Private m_TextReadInBeforeCommitEvent As String
 
 ' AccUnit infrastructure for advanced AccUnit features. Do not remove these lines.
 Implements SimplyVBUnit.ITestFixture
@@ -29,6 +31,8 @@ Public Sub Setup()
    m_FiredAfterRollbackEvent = False
    m_TextWrittenToTable = vbNullString
    m_TextReadInAfterCommitHandler = vbNullString
+   m_SetCancelInBeforeCommitEvent = False
+   m_TextReadInBeforeCommitEvent = vbNullString
 End Sub
 Public Sub TearDown()
    Set Executor = Nothing
@@ -59,6 +63,36 @@ Public Sub DoesNotFireEventAfterRollback()
    Assert.IsFalse m_FiredAfterRollbackEvent, "The event 'AfterRollback' should not be fired."
 End Sub
 
+Public Sub DoesNotFireEventAfterCommitIfCancelIsSetInBeforeCommitEvent()
+   m_SetCancelInBeforeCommitEvent = True
+   
+   Executor.Execute
+   
+   Assert.IsFalse m_FiredAfterCommitEvent
+End Sub
+
+Public Sub HasNotCommittedYetInBeforeCommitEvent()
+   Dim OriginalTextInTable As String
+   
+   OriginalTextInTable = GetActualTextInTable()
+   
+   ' Act
+   Executor.Execute
+   
+   Assert.AreEqual OriginalTextInTable, m_TextReadInBeforeCommitEvent
+End Sub
+
+Public Sub RollsBackIfCancelIsSetInBeforeCommitEvent()
+   Dim OriginalTextInTable As String
+   
+   OriginalTextInTable = GetActualTextInTable()
+   m_SetCancelInBeforeCommitEvent = True
+   
+   Executor.Execute
+   
+   Assert.AreEqual OriginalTextInTable, GetActualTextInTableViaDefaultWorkspace()
+End Sub
+
 
 
 ' ___ Executor Event Handlers ___
@@ -68,6 +102,11 @@ End Sub
 Private Sub Executor_Execute(ByVal ErrorState As AT_ErrorState)
    m_TextWrittenToTable = UpdateTextInTable()
    ' no error is raised
+End Sub
+
+Private Sub Executor_BeforeCommit(ByRef Cancel As Boolean)
+   Cancel = m_SetCancelInBeforeCommitEvent
+   m_TextReadInBeforeCommitEvent = GetActualTextInTable()
 End Sub
 
 Private Sub Executor_AfterCommit()
