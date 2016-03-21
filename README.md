@@ -14,11 +14,6 @@ For better user interacation several hooks exist in the process.
 * Make sure a reference to the DAO library is set
  
 ## Basic Usage
-1. Declare a module level variable of `TransactionalExecutor` with the keyword `WithEvents`
-2. Call your code that should be run within the transaction in an event handler for the event `Execute`.  
-   Include basic error handling (see below). 
-3. Assign an instance of `TransactionalExecutor` to the module level variable
-4. Call the `Execute` method on that instance   
 
 The following code snipped shows this in a minimal setup. Note that this code only works in a class module (can be a form's code behind).
 ````vbnet
@@ -46,21 +41,26 @@ Err_:
 End Sub
 ````
 
+### What above code does
+1. Declare a module level variable of `TransactionalExecutor` with the keyword `WithEvents`
+2. Call your code that should be run within the transaction in an event handler for the event `Execute`.  
+   Include basic error handling (see below). 
+3. Assign an instance of `TransactionalExecutor` to the module level variable
+4. Call the `Execute` method on that instance   
+
 ## Features
 ### Hooks
 `TransactionExecutor` provides hooks in the form of events.
 
 The following events can be used. Typically, the `Execute` event is implemented first and other events are used for improved user feedback.
-````vbnet
-Public Event BeforeExecute(ByRef Cancel As Boolean)
-Public Event Execute(ByVal ErrorState As AT_ErrorState)
-Public Event AfterExecute()
-
-Public Event BeforeCommit(ByRef Cancel As Boolean)
-Public Event AfterCommit()
-
-Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
-````
+* `Public Event` [`BeforeExecute`](#beforeexecute) `(ByRef Cancel As Boolean)`
+* Public Event Execute(ByVal ErrorState As AT_ErrorState)
+* Public Event AfterExecute()
+* 
+* Public Event BeforeCommit(ByRef Cancel As Boolean)
+* Public Event AfterCommit()
+* 
+* Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
 
 #### BeforeExecute
 Is the first event raised by a call to `Execute()`. Can be used to cancel the operation.
