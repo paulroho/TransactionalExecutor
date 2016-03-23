@@ -42,11 +42,11 @@ End Sub
 ````
 
 ### What above code does
-1. Declare a module level variable of `TransactionalExecutor` with the keyword `WithEvents`
-2. Call your code that should be run within the transaction in an event handler for the event `Execute`.  
+1. Declares a module level variable of `TransactionalExecutor` with the keyword `WithEvents`
+2. Calls your code that should be run within the transaction in an event handler for the event `Execute`.  
    Include basic error handling (see below). 
-3. Assign an instance of `TransactionalExecutor` to the module level variable
-4. Call the `Execute` method on that instance   
+3. Assigns an instance of `TransactionalExecutor` to the module level variable
+4. Calls the `Execute` method on that instance   
 
 ## Features
 ### Hooks
@@ -64,6 +64,9 @@ The following events can be used. Typically, the `Execute` event is implemented 
 
 #### Rollback Hook 
 * [`Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)`](#afterrollback)
+
+#### Overview
+![Overview](https://raw.githubusercontent.com/paulroho/TransactionalExecutor/master/Documentation/flowchart.mmd.png)
 
 #### BeforeExecute
 Is the first event raised by a call to `Execute()`. Can be used to cancel the operation.

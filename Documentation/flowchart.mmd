@@ -1,0 +1,50 @@
+graph TD
+
+start(Start)
+start-->bfr.exec
+
+bfr.exec>BeforeExecute]
+bfr.exec-->|Cancel| end_
+bfr.exec-->exec
+
+exec>Execute]
+exec-->|Error| rollback
+
+rollback[Rollback]
+rollback-->aftr.rollback
+
+aftr.rollback>AfterRollback]
+aftr.rollback-->aftr.exec
+
+exec-->bfr.commit
+
+bfr.commit>BeforeCommit]
+bfr.commit-->|Cancel| rollback.oncancelcommit
+bfr.commit-->commit
+
+rollback.oncancelcommit[Rollback]
+rollback.oncancelcommit-->norollbackhint
+
+norollbackhint>"(No AfterRollback event)"]
+norollbackhint-->aftr.exec
+
+commit[Commit]
+commit-->aftr.commit
+
+aftr.commit>AfterCommit]
+aftr.commit-->aftr.exec
+
+aftr.exec>AfterExecute]
+aftr.exec-->end_
+
+end_(End)
+
+classDef event fill:#9ff,stroke:#333,stroke-width:3px;
+classDef hint fill:#fff,stroke:#fff,stroke-width:3px;
+classDef terminal fill:#f9f,stroke:#333,stroke-width:3px;
+
+class start,end_ terminal;
+
+class bfr.exec,exec,bfr.commit,aftr.commit,aftr.rollback,aftr.exec event;
+
+class norollbackhint hint;
