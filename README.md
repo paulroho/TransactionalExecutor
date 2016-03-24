@@ -7,7 +7,7 @@ A class for easier execution of code in the context of a transaction without the
 * Commits the transaction if no error occured
 * Rolls the transaction back if an error occured
  
-For better user interacation several hooks exist in the process. 
+To allow for better user interacation several hooks exist in the process. Refer to the [Overview](#overview) for a complete picture of the flow of things.
  
 ## Basic Usage
 
@@ -41,7 +41,7 @@ Err_:
 End Sub
 ````
 
-### What above code does
+#### What above code does
 1. Declares a module level variable of `TransactionalExecutor` with the keyword `WithEvents`
 2. Calls your code that should be run within the transaction in an event handler for the event `Execute`.  
    Include basic error handling (see below). 
@@ -54,7 +54,7 @@ End Sub
 
 The following events can be used. Typically, the `Execute` event is implemented first and other events are used for improved user feedback.
 #### Execution Hooks
-* [`Public Event BeforeExecute (ByRef Cancel As Boolean)`](#beforeexecute)
+* [`Public Event BeforeExecute(ByRef Cancel As Boolean)`](#beforeexecute)
 * [`Public Event Execute(ByVal ErrorState As AT_ErrorState)`](#execute)
 * [`Public Event AfterExecute()`](#afterexecute)
 
