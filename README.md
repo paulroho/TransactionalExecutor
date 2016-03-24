@@ -8,17 +8,17 @@ A class for easier execution of code in the context of a transaction without the
 * Rolls the transaction back if an error occured
  
 For better user interacation several hooks exist in the process. 
-
-## Preparation
-* Copy the class modules `AT_TransactionalExecutor` and `AT_ErrorState` (folder [TransactionalExecutorCreator.accdb.Content/Code/AT](TransactionalExecutorCreator.accdb.Content/Code/AT)) to your VBA project.
-* Make sure a reference to the DAO library is set
  
 ## Basic Usage
 
+### Preparation
+* Copy the class modules `AT_TransactionalExecutor` and `AT_ErrorState` (folder [TransactionalExecutorCreator.accdb.Content/Code/AT](TransactionalExecutorCreator.accdb.Content/Code/AT)) to your VBA project.
+* Make sure a reference to the DAO library is set
+
+### Minimal Scenario
 The following code snipped shows this in a minimal setup. Note that this code only works in a class module (can be a form's code behind).
 ````vbnet
 Private WithEvents MultistepOperation As AT_TransactionalExecutor
-
 ' ...
 
 Public Sub DoTheOperation()
