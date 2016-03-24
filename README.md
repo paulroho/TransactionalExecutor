@@ -54,10 +54,7 @@ End Sub
 
 The following events can be used. Typically, the `Execute` event is implemented first and other events are used for improved user feedback.
 #### Execution Hooks
-[````vbnet
-Public Event Test(ByRef Cancel As Boolean)
-````](#beforeexecute)
-* [`Public Event BeforeExecute(ByRef Cancel As Boolean)`](#beforeexecute)
+* [`Public Event BeforeExecute (ByRef Cancel As Boolean)`](#beforeexecute)
 * [`Public Event Execute(ByVal ErrorState As AT_ErrorState)`](#execute)
 * [`Public Event AfterExecute()`](#afterexecute)
 
