@@ -72,7 +72,9 @@ The following events can be used. Typically, the `Execute` event is implemented 
 Is the first event raised by a call to `Execute()`. Can be used to cancel the operation.
 
 ##### Signature
-    Public Event BeforeExecute(ByRef Cancel As Boolean)
+````vbnet
+Public Event BeforeExecute(ByRef Cancel As Boolean)
+````
 
 ##### Typical use cases
 
@@ -90,7 +92,9 @@ End Sub
 Place the code to be executed within the transaction here. Make sure to follow the error handling pattern below.
 
 ##### Signature
-    Public Event Execute(ByVal ErrorState As AT_ErrorState)
+````vbnet
+Public Event Execute(ByVal ErrorState As AT_ErrorState)
+````
 
 ##### Error handling pattern
 Since an error raised from an event handler cannot be caught, a simple error handling pattern has to be implemented. The important part here is to call `ErrorState.SetError Err` in case of an error:
@@ -114,7 +118,9 @@ If `ErrorState.SetError` has not been called, the transaction gets committed. Ot
 This event is fired immediately after the even `Execute` regardless of the outcome. Any commit or rollback happens afterwards.
 
 ##### Signature
-    Public Event AfterExecute()
+````vbnet
+Public Event AfterExecute()
+````
 
 ##### Typical Use Case
 * Hide any busy indications such as hourglass or progress bars
@@ -131,7 +137,9 @@ End Sub
 Is raised after the operation completed without error but before the transaction is commited. This operation can be canceled. The transaction will be cancelled afterwards if the event is not cancelled. If it is cancelled, the operation will be rolled back (without firing the event `AfterRollback`).
 
 ##### Signature
-    Public Event BeforeCommit(ByRef Cancel As Boolean)
+````vbnet
+Public Event BeforeCommit(ByRef Cancel As Boolean)
+````
 
 ##### Typical Use Case
 Give the user a chance to avoid committing the operation result to the database. Information about the execution that was eventually collected during execution can be provided.
@@ -148,7 +156,9 @@ End Sub
 Is called after the transaction has been successfully committed.
 
 ##### Signature
-    Public Event AfterCommit()
+````vbnet
+Public Event AfterCommit()
+````
 
 ##### Typical Use Case
 * Log the (number of) affected records
@@ -167,7 +177,9 @@ End Sub
 Is called after the transaction has been rolled back due to an error. The `ErrorState` set by the `Execute` event handler is provided as a parameter. 
 
 ##### Signature
-    Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
+````vbnet
+Public Event AfterRollback(ByVal ErrorState As AT_ErrorState)
+````
 
 ##### Typical Use Case
 * Inform the user about the the error that has occured.
